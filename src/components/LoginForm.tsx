@@ -8,10 +8,50 @@ import {
   Stack,
   FormControl,
   Text,
+  useToast,
 } from "@chakra-ui/react";
+import { useFormik } from "formik";
 import { useState } from "react";
+import * as yup from "yup";
+import { LOGINVALIDATOR } from "../validator/LoginValidator";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const toast = useToast({
+    position: "top",
+    containerStyle: {
+      zIndex: 9,
+    },
+  });
+
+  const validationSchema = yup.object().shape(LOGINVALIDATOR);
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      setLoading(true);
+      if (values.email !== "" && values.password !== "") {
+        toast({
+          status: "success",
+          description: "Logged in successfully",
+        });
+        navigate("/");
+      } else {
+        toast({
+          status: "error",
+          description: "oops something went wrong",
+        });
+      }
+    },
+  });
+  // use formik and yup to handle login?
+
   const PassWordInput = () => {
     const [show, setShow] = useState(false);
     const handleClick = () => setShow(!show);
@@ -19,9 +59,14 @@ const LoginForm = () => {
       <InputGroup size="md">
         <Input
           pr="4.5rem"
+          name="password"
           type={show ? "text" : "password"}
-          placeholder="password"
+          placeholder="Password"
           outlineColor="gray.300"
+          color="gray.600"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          isRequired
         />
         <InputRightElement width="4.5rem">
           <Button
@@ -41,7 +86,7 @@ const LoginForm = () => {
   return (
     <>
       <Flex>
-        <form>
+        <form onSubmit={formik.handleSubmit}>
           <Stack spacing={4} w="full" maxW="md">
             <FormControl id="email">
               <Input
@@ -49,6 +94,10 @@ const LoginForm = () => {
                 type="email"
                 name="email"
                 outlineColor="gray.300"
+                color="gray.600"
+                placeholder="Email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
               />
             </FormControl>
             <FormControl id="password">
@@ -71,6 +120,10 @@ const LoginForm = () => {
               _hover={{
                 bgColor: "teal.400",
               }}
+              onClick={() => formik.handleSubmit}
+              isLoading={loading}
+              isDisabled={formik.isValid || loading === false ? false : true}
+              type="submit"
             >
               LOG IN
             </Button>
