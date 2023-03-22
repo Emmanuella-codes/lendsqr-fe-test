@@ -1,4 +1,5 @@
 export const ROUTES = {
   login: "/login",
-  dashboard: "/"
+  dashboard: "/",
+  notFound: "/not-found"
 }

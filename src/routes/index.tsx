@@ -4,7 +4,10 @@ import { Spinner } from "@chakra-ui/react";
 import React, { Suspense } from "react";
 
 const Login = React.lazy(() => import("../pages/index"));
-const UserDashboard = React.lazy(() => import("../pages/Dashboard/index"));
+const UserDashboard = React.lazy(
+  () => import("../layout/Dashboard/UserDashboard")
+);
+const NotFound = React.lazy(() => import("../pages/NotFound"));
 
 const RouteCmp = () => {
   return (
@@ -23,9 +26,10 @@ const RouteCmp = () => {
       <Routes>
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.dashboard} element={<UserDashboard />} />
+        <Route path={ROUTES.notFound} element={<NotFound />} />
       </Routes>
     </Suspense>
   );
 };
 
-export default RouteCmp
+export default RouteCmp;
