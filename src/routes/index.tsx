@@ -8,6 +8,7 @@ const UserDashboard = React.lazy(
   () => import("../layout/Dashboard/UserDashboard")
 );
 const NotFound = React.lazy(() => import("../pages/NotFound"));
+const Users = React.lazy(() => import("../pages/Dashboard/index"));
 
 const RouteCmp = () => {
   return (
@@ -27,6 +28,7 @@ const RouteCmp = () => {
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.dashboard} element={<UserDashboard />} />
         <Route path={ROUTES.notFound} element={<NotFound />} />
+        <Route path={ROUTES.users} element={<Users />} />
       </Routes>
     </Suspense>
   );

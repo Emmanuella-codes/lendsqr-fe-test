@@ -48,7 +48,7 @@ import { SearchIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { FiMenu } from "react-icons/fi";
 import LendsqrLogo from "../../assets/lendsqr-logo.svg";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface SVGIconType extends IconType, ISVGS {}
 
@@ -56,6 +56,7 @@ interface DropdownMenuProps {
   name: string;
   url: string;
   icon: SVGIconType;
+  id: number;
 }
 
 interface SidebarItemProps {
@@ -75,32 +76,47 @@ interface MobileProps extends FlexProps {
 
 const UserDashboard = () => {
   const customers: DropdownMenuProps[] = [
-    { name: "Users", url: "/users", icon: UsersIcon },
-    { name: "Guarantors", url: "/not-found", icon: GuarantorsIcon },
-    { name: "Loans", url: "/not-found", icon: LoanIcon },
-    { name: "Decision Models", url: "/not-found", icon: DecisionModelIcon },
-    { name: "Savings", url: "/not-found", icon: SavingsIcon },
-    { name: "Loan Requests", url: "/not-found", icon: LoanRequestIcon },
-    { name: "Whitelist", url: "/not-found", icon: WhitelistIcon },
-    { name: "Karma", url: "/not-found", icon: KarmaIcon },
+    { name: "Users", url: "/users", icon: UsersIcon, id: 1 },
+    { name: "Guarantors", url: "/not-found", icon: GuarantorsIcon, id: 2 },
+    { name: "Loans", url: "/not-found", icon: LoanIcon, id: 3 },
+    {
+      name: "Decision Models",
+      url: "/not-found",
+      icon: DecisionModelIcon,
+      id: 4,
+    },
+    { name: "Savings", url: "/not-found", icon: SavingsIcon, id: 5 },
+    { name: "Loan Requests", url: "/not-found", icon: LoanRequestIcon, id: 6 },
+    { name: "Whitelist", url: "/not-found", icon: WhitelistIcon, id: 7 },
+    { name: "Karma", url: "/not-found", icon: KarmaIcon, id: 8 },
   ];
 
   const businesses: DropdownMenuProps[] = [
-    { name: "Organization", url: "/not-found", icon: BriefCaseIcon },
-    { name: "Loan Products", url: "/not-found", icon: LoanRequestIcon },
-    { name: "Savings Products", url: "/not-found", icon: SavingsProductIcon },
-    { name: "Fees and Charges", url: "/not-found", icon: CoinsIcon },
-    { name: "Transactions", url: "/not-found", icon: TransactionIcon },
-    { name: "Services", url: "/not-found", icon: ServicesIcon },
-    { name: "Service Account", url: "/not-found", icon: ServiceAccountIcon },
-    { name: "Settlements", url: "/not-found", icon: SettlementIcon },
-    { name: "Reports", url: "/not-found", icon: ReportIcon },
+    { name: "Organization", url: "/not-found", icon: BriefCaseIcon, id: 1 },
+    { name: "Loan Products", url: "/not-found", icon: LoanRequestIcon, id: 2 },
+    {
+      name: "Savings Products",
+      url: "/not-found",
+      icon: SavingsProductIcon,
+      id: 3,
+    },
+    { name: "Fees and Charges", url: "/not-found", icon: CoinsIcon, id: 4 },
+    { name: "Transactions", url: "/not-found", icon: TransactionIcon, id: 5 },
+    { name: "Services", url: "/not-found", icon: ServicesIcon, id: 6 },
+    {
+      name: "Service Account",
+      url: "/not-found",
+      icon: ServiceAccountIcon,
+      id: 7,
+    },
+    { name: "Settlements", url: "/not-found", icon: SettlementIcon, id: 8 },
+    { name: "Reports", url: "/not-found", icon: ReportIcon, id: 9 },
   ];
 
   const settings: DropdownMenuProps[] = [
-    { name: "Preferences", url: "/not-found", icon: PreferencesIcon },
-    { name: "Fees and Pricing", url: "/not-found", icon: FeesIcon },
-    { name: "Audit Logs", url: "/not-found", icon: AuditIcon },
+    { name: "Preferences", url: "/not-found", icon: PreferencesIcon, id: 1 },
+    { name: "Fees and Pricing", url: "/not-found", icon: FeesIcon, id: 2 },
+    { name: "Audit Logs", url: "/not-found", icon: AuditIcon, id: 3 },
   ];
 
   const sidebarItems: SidebarItemProps[] = [
@@ -134,6 +150,8 @@ const UserDashboard = () => {
         {...rest}
         display="flex"
         flexDir="column"
+        px="6"
+        color="rgba(33, 63, 125, 1)"
       >
         <Flex flexDir="column">
           <CloseButton
@@ -141,45 +159,69 @@ const UserDashboard = () => {
             onClick={onClose}
           />
         </Flex>
-        <Box display={"flex"} flexDir="row" gap={2} alignItems="center">
+        <Box display={"flex"} flexDir="row" gap={2} alignItems="center" mt={7}>
           <Icon as={BriefCaseIcon} />
           <Text>Switch Organization</Text>
           <ChevronDownIcon />
         </Box>
-        <Box display="flex" flexDir="row" gap={2} alignItems="center">
+        <Box display="flex" flexDir="row" gap={2} alignItems="center" mt={10}>
           <Icon as={HomeIcon} />
           <Text>Dashboard</Text>
         </Box>
-        <Flex flexDir="column">
+        <Flex flexDir="column" mt={7}>
           <Text>Customers</Text>
           <Box>
-            {sidebarItems[0].dropdownMenus?.map((item, index) => (
-              <Box key={index} display="flex" gap={2} alignItems="center">
-                <Icon as={item.icon} />
-                <Text>{item.name}</Text>
-              </Box>
+            {sidebarItems[0].dropdownMenus?.map((item) => (
+              <Link to={item.url}>
+                <Box
+                  key={item.id}
+                  display="flex"
+                  gap={2}
+                  alignItems="center"
+                  mt={3}
+                >
+                  <Icon as={item.icon} />
+                  <Text>{item.name}</Text>
+                </Box>
+              </Link>
             ))}
           </Box>
         </Flex>
-        <Flex flexDir="column">
+        <Flex flexDir="column" mt={7}>
           <Text>Businesses</Text>
           <Box>
-            {sidebarItems[1].dropdownMenus?.map((item, index) => (
-              <Box key={index} display="flex" gap={2} alignItems="center">
-                <Icon as={item.icon} />
-                <Text>{item.name}</Text>
-              </Box>
+            {sidebarItems[1].dropdownMenus?.map((item) => (
+              <Link to={item.url}>
+                <Box
+                  key={item.id}
+                  display="flex"
+                  gap={2}
+                  alignItems="center"
+                  mt={3}
+                >
+                  <Icon as={item.icon} />
+                  <Text>{item.name}</Text>
+                </Box>
+              </Link>
             ))}
           </Box>
         </Flex>
-        <Flex flexDir="column">
+        <Flex flexDir="column" mt={7}>
           <Text>Settings</Text>
           <Box>
-            {sidebarItems[2].dropdownMenus?.map((item, index) => (
-              <Box key={index} display="flex" gap={2} alignItems="center">
-                <Icon as={item.icon} />
-                <Text>{item.name}</Text>
-              </Box>
+            {sidebarItems[2].dropdownMenus?.map((item) => (
+              <Link to={item.url}>
+                <Box
+                  key={item.id}
+                  display="flex"
+                  gap={2}
+                  alignItems="center"
+                  mt={3}
+                >
+                  <Icon as={item.icon} />
+                  <Text>{item.name}</Text>
+                </Box>
+              </Link>
             ))}
           </Box>
         </Flex>
@@ -198,6 +240,7 @@ const UserDashboard = () => {
       borderBottomColor="gray.200"
       justifyContent="space-between"
       w="full"
+      color="rgba(33, 63, 125, 1)"
     >
       <IconButton
         display={{ base: "flex", md: "none" }}
